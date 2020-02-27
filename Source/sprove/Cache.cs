@@ -66,8 +66,11 @@ namespace Sprove
                     cacheDirInfo.Attributes |= FileAttributes.Hidden;
                 }
 
+                // If this fails, an exception will be thrown, so don't check
+                // the return value.
                 Directory.CreateDirectory( CacheTmpDir );
 
+                // Initialization successful at this point.
                 Result = true;
             }
             catch( Exception exception )
