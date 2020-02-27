@@ -39,7 +39,7 @@ def FindMCS():
 # Source/Vendor/vswhere.
 def FindCSC():
     args    = [ scriptPath + "/Source/Vendor/vswhere/vswhere.exe",
-                    "-legacy", "-latest", "-utf8", "-nologo",
+                    "-latest", "-utf8", "-nologo",
                     "-property", "installationPath", "-format", "value"
                   ]
     which  = subprocess.run( args, stdout=subprocPipe, stderr=subprocPipe )
