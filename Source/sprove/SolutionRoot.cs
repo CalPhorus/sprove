@@ -112,7 +112,10 @@ namespace Sprove
                 string RootDir = null;
                 if( FindRoot( ref RootDir ) )
                 {
-                    _rootDirectory = RootDir;
+                    // Use the directory with only the DirectorySeparatorChar.
+                    _rootDirectory =
+                        RootDir.Replace( Path.AltDirectorySeparatorChar,
+                            Path.DirectorySeparatorChar );
 
                     // Set the applications current working directory to the directory
                     // containing the first found project.
