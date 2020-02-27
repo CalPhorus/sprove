@@ -4,7 +4,7 @@ using System;
 namespace Sprove
 {
 
-    class Sprove
+    internal class Sprove
     {
 
         static void DisplayHelp()
@@ -12,6 +12,11 @@ namespace Sprove
 
         static int Main( string[] Arguments )
         {
+            if( !SolutionRoot.SetRootDirectory() )
+            {
+                return 1;
+            }
+
             if( !Cache.Initialize() )
             {
                 return 1;
