@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -40,7 +41,7 @@ namespace Sprove
             string      toRemove;
             string      result      = string.Empty;
 
-            toRemove = SolutionRoot.RootDirectory + Path.DirectorySeparatorChar;
+            toRemove = SolutionRoot.RootDirectory;
 
             if( File.Exists( location ) )
             {
@@ -51,6 +52,12 @@ namespace Sprove
             {
                 // Not a file, but a directory.
                 dir = location;
+
+                if( dir.EndsWith( string.Empty + Path.DirectorySeparatorChar ) ||
+                    dir.EndsWith( string.Empty + Path.AltDirectorySeparatorChar ) )
+                {
+                    toRemove += Path.DirectorySeparatorChar;
+                }
             }
             else
             {
@@ -70,20 +77,141 @@ namespace Sprove
 
             // If components.Length is less than 2, no need to do anything
             // special, just return.
-            if( 1 == components.Length )
+            if( 1 == components.Length &&
+                string.Empty != components[ 0 ] )
             {
-                return components[ 0 ];
+                // add the '.' character explicitly at the end so that it
+                // does not need to be added later.
+                return components[ 0 ] + ".";
             }
-            else if( 0 == components.Length )
+            else if( 1 >= components.Length )
             {
+                // Either empty array or empty component.
                 // Can't do anything if it is empty.
                 return string.Empty;
             }
 
             // Join again with the '.' character, so that it can produce a valid
-            // namespace.
-            result = String.Join( ".", components );
+            // namespace. Add the '.' character explicitly at the end so that it
+            // does not need to be added later.
+            result = String.Join( ".", components ) + ".";
 
+            return result;
+        }
+
+        private bool NeedsCompilation( string fileName, string compileOutput )
+        {
+            if( !File.Exists( compileOutput ) )
+            {
+                // If the output does not exist, a compilation needs to happen.
+                return true;
+            }
+
+            DateTime scriptDate = File.GetLastWriteTime( fileName );
+            DateTime outputDate = File.GetLastWriteTime( compileOutput );
+
+            // If scriptDate is newer than outputDate, then a compilation is
+            // needed.
+            return 0 < DateTime.Compare( scriptDate, outputDate );
+        }
+
+        private bool CreateAssembly( string fileName, string assemblyLocation,
+                                     string assemblyNamespace )
+        {
+            if( NeedsCompilation( fileName, assemblyLocation ) )
+            {
+                Assembly    self        = Assembly.GetExecutingAssembly();
+                CompileData compileData = new CompileData();
+                Compiler    compiler    = new Compiler();
+                
+                if( string.Empty != assemblyNamespace )
+                {
+                    string tempFile = Path.Combine( Cache.CacheTmpDir,
+                        assemblyNamespace + Solution.ExpectedFileName + ".cs" );
+                    string readFile = File.ReadAllText( fileName );
+
+                    readFile = "namespace " + assemblyNamespace + "{" + readFile + "}";
+
+                    File.WriteAllText( tempFile, readFile );
+
+                    fileName = tempFile;
+                }
+
+                // Build a dynamic library that can be loaded at runtime.
+                compileData.isLibrary           = true;
+
+                // Allow debug info to be included so user can test for errors
+                // in their project. They will have some at some point.
+                compileData.includeDebugInfo    = true;
+
+                // Where the heck does it go? Oh yeah, it'll get saved to
+                // assemblyLocation! Brilliant.
+                compileData.name                = assemblyLocation;
+
+                // The source files? Just one: fileName.
+                compileData.sourceFiles         = new List<string>();
+                compileData.sourceFiles.Add( fileName );
+
+                // To care about the users or not to, that is the question.
+                // Treating warnings as errors = not caring. In this case,
+                // I don't care.
+                compileData.warningsAreErrors   = true;
+
+                // Warning level? TO THE MAX!
+                compileData.warningLevel = WarningLevel.Level4;
+
+                // Add this assembly to the list of referenced assemblies.
+                compileData.referencedAssemblies = new List<string>();
+                compileData.referencedAssemblies.Add( self.Location );
+
+                if( !compiler.Compile( compileData ) )
+                {
+                    // Couldn't build it, how am I supposed to load it?
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="location">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public bool Load( string location )
+        {
+            if( !Directory.Exists( location ) )
+            {
+                // Not a directory, it is either a file or does not exist.
+                return false;
+            }
+
+            bool    result              = false;
+            string  assemblyNamespace   = DetermineNamespace( location );
+            string  assemblyLocation    = Cache.CacheDir;
+            string  fileName            = Path.Combine( location,
+                Solution.ExpectedFileName );
+            string  assemblyName        =
+                assemblyNamespace + Solution.ExpectedClassName + ".dll";
+
+            if( !File.Exists( fileName ) )
+            {
+                // Does not exist -- cannot open an assembly that does not
+                // exist.
+                return false;
+            }
+
+            assemblyLocation = Path.Combine( Cache.CacheDir, assemblyName );
+
+            if( !CreateAssembly( fileName, assemblyLocation, assemblyNamespace ) )
+            {
+                return false;
+            }
+
+            result = true;
             return result;
         }
 
