@@ -24,7 +24,8 @@ namespace Sprove
 {
 
     /// <summary>
-    /// Finds the first directory that contains a SproveProject.cs file.
+    /// Finds the first directory that contains a file matching the value
+    /// `Solution.ExpectedFileName`.
     /// </summary>
     internal static class SolutionRoot
     {
@@ -47,7 +48,7 @@ namespace Sprove
         {
             bool    Result              = false;
             string  CurrentDirectory    = Directory.GetCurrentDirectory();
-            string  ProjectFile         = "SproveProject.cs";
+            string  ProjectFile         = Solution.ExpectedFileName;
             string  ProjectLocation     = Path.Combine( CurrentDirectory,
                 ProjectFile );
 
