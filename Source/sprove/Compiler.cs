@@ -104,6 +104,7 @@ namespace Sprove
                 parameters.ReferencedAssemblies.AddRange( assemblies );
             }
 
+            // CompilerOptions expects each option to be space separated.
             parameters.CompilerOptions =
                 string.Join( " ", compileOptions.ToArray() );
 
