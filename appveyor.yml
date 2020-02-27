@@ -1,0 +1,15 @@
+image:
+    - Visual Studio 2019
+    - Ubuntu
+    - macOS
+
+for:
+-
+    matrix:
+        only:
+            - image: Visual Studio 2019
+    build_script:
+        - C:\\Python36-x64\\python Bootstrap.py
+
+build_script:
+        - ./Bootstrap.py
