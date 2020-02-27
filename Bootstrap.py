@@ -39,9 +39,9 @@ def FindMCS():
 # Source/Vendor/vswhere.
 def FindCSC():
     args    = [ scriptPath + "/Source/Vendor/vswhere/vswhere.exe",
-                    "-latest", "-utf8", "-nologo",
-                    "-property", "installationPath", "-format", "value"
-                  ]
+                "-latest", "-utf8", "-nologo",
+                "-property", "installationPath", "-format", "value"
+              ]
     which  = subprocess.run( args, stdout=subprocPipe, stderr=subprocPipe )
 
     # vswhere.exe always returns a 0 value, even if Visual Studio was not found.
