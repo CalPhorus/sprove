@@ -12,6 +12,11 @@ namespace Sprove
 
         static int Main( string[] Arguments )
         {
+            if( !Cache.Initialize() )
+            {
+                return 1;
+            }
+
             return 0;
         }
 
