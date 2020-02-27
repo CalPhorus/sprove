@@ -30,15 +30,24 @@ namespace Sprove
         internal static readonly string _expectedClassName = "SproveSolution";
         internal static readonly string _expectedFileName  = "SproveSolution.cs";
 
+        /// <summary>
+        ///
+        /// </summary>
         internal static string ExpectedClassName
         {
             get{ return _expectedClassName; }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         internal static string ExpectedFileName
         {
             get{ return _expectedFileName; }
         }
+
+        public Solution()
+        {}
     }
 
 } // namespace Sprove
