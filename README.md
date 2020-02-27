@@ -1,4 +1,4 @@
-![AppVeyor Job](https://img.shields.io/appveyor/job/build/calphorus/sprove/Image: Ubuntu?label=Ubuntu&logo=Ubuntu&style=for-the-badge)![AppVeyor Job](https://img.shields.io/appveyor/job/build/calphorus/sprove/Image: macOS?label=macOS&logo=apple&style=for-the-badge)![AppVeyor Job](https://img.shields.io/appveyor/job/build/calphorus/sprove/Image: Visual Studio 2019?label=Visual%20Studio%202019&logo=visual%20studio&style=for-the-badge)
+![AppVeyor Job](https://img.shields.io/appveyor/job/build/calphorus/sprove/Image%3A%20Ubuntu?label=Ubuntu&logo=ubuntu&style=for-the-badge) ![AppVeyor Job](https://img.shields.io/appveyor/job/build/calphorus/sprove/Image%3A%20macOS?label=macOS&logo=apple&style=for-the-badge) ![AppVeyor Job](https://img.shields.io/appveyor/job/build/calphorus/sprove/Image%3A%20Visual%20Studio%202019?label=Visual%20Studio%202019&logo=visual%20studio&style=for-the-badge)
 
 # sprove
 
