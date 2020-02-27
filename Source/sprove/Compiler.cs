@@ -21,7 +21,7 @@ namespace Sprove
         /// </summary>
         public Compiler()
         {
-            tempFiles = new TempFileCollection( Cache.CacheDir, true );
+            tempFiles = new TempFileCollection( Cache.CacheTmpDir, true );
         }
 
         /// <summary>
