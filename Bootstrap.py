@@ -50,7 +50,8 @@ def FindCSC():
     if b"" != which.stdout:
         # Return the path to csc.exe
         resWithNewlines = which.stdout.decode( "utf-8" )
-        print( resWithNewlines.replace( '\n', '' ).replace( '\r', '' ) )
+        returnedPath    = resWithNewlines.replace( '\n', '' ).replace( '\r', '' )
+        return os.path.join( returnedPath, "MSBuild", "Current", "Bin", "Roslyn", "csc.exe" )
 
     notFoundMsg = "At least Visual Studio 2017 is required in order to"
     notFoundMsg = notFoundMsg + f" bootstrap {projectName}!"
