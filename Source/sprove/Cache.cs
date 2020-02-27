@@ -29,10 +29,9 @@ namespace Sprove
     static internal class Cache
     {
 
-        private static bool             _isInit         = false;
-        private static readonly string  _cacheDir       = ".sprove";
-        private static readonly string  _cacheTmpDir    =
-            Path.Combine( CacheDir, "tmp" );
+        private static bool    _isInit         = false;
+        private static string  _cacheDir;
+        private static string  _cacheTmpDir;
 
         /// <summary>
         /// Evaluates to `true` if the cache is initialized, `false` otherwise.
@@ -66,8 +65,12 @@ namespace Sprove
                 return true;
             }
 
+            _cacheDir       = Path.Combine( SolutionRoot.RootDirectory,
+                ".sprove" );
+            _cacheTmpDir    = Path.Combine( CacheDir, "tmp" );
+
             // Default to failure, only setting to success on success.
-            bool Result = false;
+            bool result = false;
 
             try
             {
@@ -89,7 +92,7 @@ namespace Sprove
                 Directory.CreateDirectory( CacheTmpDir );
 
                 // Initialization successful at this point.
-                Result = true;
+                result = true;
             }
             catch( Exception exception )
             {
@@ -97,9 +100,34 @@ namespace Sprove
             }
 
             // Set initialized by the result of the initialization.
-            _isInit = Result;
-            return Result;
+            _isInit = result;
+            return result;
         }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public static bool CreateDirectory( string dirName )
+        {
+            string  location    = Path.Combine( CacheDir, dirName );
+            bool    result      = false;
+
+            if( !Directory.Exists( location ) )
+            {
+                try
+                {
+                    Directory.CreateDirectory( location );
+                    result = true;
+                }
+                catch( Exception exception )
+                {
+                    Console.WriteLine( exception );
+                }
+            }
+
+            return result;
+        }
+
     }
 
 } // namespace Sprove
