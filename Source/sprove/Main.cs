@@ -40,6 +40,13 @@ namespace Sprove
                 return 1;
             }
 
+            SolutionLoader loader = new SolutionLoader();
+
+            if( !loader.Load( SolutionRoot.RootDirectory ) )
+            {
+                return 1;
+            }
+
             return 0;
         }
 
