@@ -50,7 +50,7 @@ def FindCSC():
     if b"" != which.stdout:
         # Return the path to csc.exe
         resWithNewlines = which.stdout.decode( "utf-8" )
-        return resWithNewlines.replace( '\n', '' ).replace( '\r', '' )
+        print( resWithNewlines.replace( '\n', '' ).replace( '\r', '' ) )
 
     notFoundMsg = "At least Visual Studio 2017 is required in order to"
     notFoundMsg = notFoundMsg + f" bootstrap {projectName}!"
