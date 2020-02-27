@@ -1,0 +1,2 @@
+# Ignore .sprove directory when bootstrapping.
+/.sprove/
