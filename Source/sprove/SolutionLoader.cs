@@ -31,6 +31,19 @@ namespace Sprove
     internal class SolutionLoader
     {
 
+        private Solution _loadedSolution = null;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Solution LoadedSolution
+        {
+            get{ return _loadedSolution; }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
         public SolutionLoader()
         {}
 
@@ -174,6 +187,24 @@ namespace Sprove
             return true;
         }
 
+        private bool LoadAssembly( string assemblyLocation, ref Assembly outAssembly )
+        {
+            bool result = false;
+
+            try
+            {
+                outAssembly = Assembly.LoadFile( assemblyLocation );
+
+                result = true;
+            }
+            catch( Exception exception )
+            {
+                Console.WriteLine( exception );
+            }
+
+            return result;
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -211,6 +242,34 @@ namespace Sprove
                 return false;
             }
 
+            Assembly loadedAssembly = null;
+            if( !LoadAssembly( assemblyLocation, ref loadedAssembly ) )
+            {
+                return false;
+            }
+
+            // Load the solution from here.
+            Solution    solution        = null;
+            Type        solutionType    =
+                loadedAssembly.GetType(
+                    assemblyNamespace + Solution.ExpectedClassName );
+
+            if( null == solutionType )
+            {
+                // Expected class not there.
+                return false;
+            }
+
+            solution = Activator.CreateInstance( solutionType ) as Solution;
+
+            if( null == solution )
+            {
+                // Could not instantiate an object of the expected type.
+                return false;
+            }
+
+            _loadedSolution = solution;
+            
             result = true;
             return result;
         }
