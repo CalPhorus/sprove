@@ -51,7 +51,11 @@ def FindCSC():
         # Return the path to csc.exe
         resWithNewlines = which.stdout.decode( "utf-8" )
         returnedPath    = resWithNewlines.replace( '\n', '' ).replace( '\r', '' )
-        return os.path.join( returnedPath, "MSBuild", "Current", "Bin", "Roslyn", "csc.exe" )
+        msbuildPath     = os.path.join( returnedPath, "MSBuild" )
+
+        for dirpath, dirnames, filenames in os.walk( msbuildPath ):
+            for filename in [ f for f in filenames if f.endswith( "csc.exe" ) ]:
+                return os.path.join( dirpath, filename )
 
     notFoundMsg = "At least Visual Studio 2017 is required in order to"
     notFoundMsg = notFoundMsg + f" bootstrap {projectName}!"
@@ -95,9 +99,9 @@ class CSCompiler:
                   ] + compilerData.files
 
         result  = subprocess.run( args, stdout=subprocPipe, stderr=subprocPipe )
+        stdout  = result.stdout.decode( "utf-8" )
+        stderr  = result.stderr.decode( "utf-8" )
 
-        stdout = result.stdout.decode( "utf-8" )
-        stderr = result.stderr.decode( "utf-8" )
         if "" != stdout:
             print( stdout )
 
