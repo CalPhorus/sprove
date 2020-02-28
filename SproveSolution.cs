@@ -22,9 +22,11 @@ using Sprove;
 
 class SproveSolution : Solution
 {
-    public SproveSolution() : base()
+    public SproveSolution( Target target ) : base( target )
     {
         Console.WriteLine( "Hello there." );
+        Console.WriteLine( "Config: {0}", target.Config );
+        Console.WriteLine( "System: {0}", target.TargetOS );
     }
 }
 

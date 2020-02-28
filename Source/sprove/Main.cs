@@ -30,6 +30,12 @@ namespace Sprove
 
         static int Main( string[] Arguments )
         {
+            if( BuildTarget.Unknown == Target.Host() )
+            {
+                // Unknown host operating system.
+                return 1;
+            }
+
             if( !SolutionRoot.SetRootDirectory() )
             {
                 return 1;
@@ -42,7 +48,8 @@ namespace Sprove
 
             SolutionLoader loader = new SolutionLoader();
 
-            if( !loader.Load( SolutionRoot.RootDirectory ) )
+            Target target = new Target( BuildConfig.Debug, Target.Host() );
+            if( !loader.Load( SolutionRoot.RootDirectory, target ) )
             {
                 return 1;
             }

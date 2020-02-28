@@ -212,7 +212,7 @@ namespace Sprove
         /// </param>
         /// <returns>
         /// </returns>
-        public bool Load( string location )
+        public bool Load( string location, Target target )
         {
             if( !Directory.Exists( location ) )
             {
@@ -260,7 +260,8 @@ namespace Sprove
                 return false;
             }
 
-            solution = Activator.CreateInstance( solutionType ) as Solution;
+            solution = Activator.CreateInstance( solutionType,
+                new object[]{ target } ) as Solution;
 
             if( null == solution )
             {

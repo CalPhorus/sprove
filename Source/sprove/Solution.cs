@@ -46,7 +46,7 @@ namespace Sprove
             get{ return _expectedFileName; }
         }
 
-        public Solution()
+        public Solution( Target target )
         {}
     }
 
