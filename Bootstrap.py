@@ -79,6 +79,7 @@ class CompilerData:
     outputName  = f"{projectName}"
     defines     = []
     files       = []
+    references  = []
 
 # Class used to compile C# files.
 class CSCompiler:
@@ -89,13 +90,18 @@ class CSCompiler:
             self.compiler = FindCSC()
 
     def Compile( self, compilerData: CompilerData ):
-        define  = ''
+        define      = ''
+        references  = ''
         if len( compilerData.defines ):
             define = "-define:" + ','.join( compilerData.defines )
+
+        if len( compilerData.references ):
+            references = "-r:" + ','.join( compilerData.references )
 
         args    = [ self.compiler,
                     "-out:" + compilerData.outputName + ".exe",
                     define,
+                    references,
                   ] + compilerData.files
 
         result  = subprocess.run( args, stdout=subprocPipe, stderr=subprocPipe )
@@ -115,6 +121,7 @@ def main():
     compiler    = CSCompiler()
     compileData.files.extend( FindAllCSFilesInDir( projectSrcPath ) )
     compileData.defines.append( "SPROVE_BOOTSTRAP" )
+    compileData.references.append( "System.Runtime.InteropServices.RuntimeInformation.dll" )
 
     returncode  = compiler.Compile( compileData )
 
