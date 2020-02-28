@@ -22,5 +22,9 @@ using Sprove;
 
 class SproveSolution : Solution
 {
+    public SproveSolution() : base()
+    {
+        Console.WriteLine( "Hello there." );
+    }
 }
 
