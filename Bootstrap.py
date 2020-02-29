@@ -114,6 +114,19 @@ class CSCompiler:
         if "" != stderr:
             print( stderr )
 
+        # Print version information if errors occur in build.
+        if 0 != result.returncode:
+            args    = [ self.compiler, "--version" ]
+            version = subproces.run( args, stdout=subprocPipe,
+                stderr=subprocPipe )
+            stdout = version.stdout.decode( "utf-8" )
+            stderr = version.stderr.decode( "utf-8" )
+
+            if "" != stdout:
+                print( stdout )
+            if "" != stderr:
+                print( stderr )
+
         return result.returncode
 
 def main():
