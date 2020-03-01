@@ -22,53 +22,47 @@ using System;
 namespace Sprove
 {
 
-    internal class SproveOptions
+    /// <summary>
+    ///
+    /// </summary>
+    internal class OptionAttribute : Attribute
     {
-        [Option( ShortCode="-t", LongCode="--target" )]
-        public BuildTarget target = Target.Host();
+        private string _shortCode   = string.Empty;
+        private string _longCode    = string.Empty;
 
-        [Option( LongCode="--config" )]
-        public BuildConfig config = BuildConfig.Debug;
-    }
-
-    internal class Sprove
-    {
-
-        static void DisplayHelp()
-        {}
-
-        static int Main( string[] Arguments )
+        /// <summary>
+        ///
+        /// </summary>
+        public string ShortCode
         {
-            SproveOptions options = new SproveOptions();
-
-            if( BuildTarget.Unknown == Target.Host() )
-            {
-                // Unknown host operating system.
-                return 1;
-            }
-
-            if( !SolutionRoot.SetRootDirectory() )
-            {
-                return 1;
-            }
-
-            if( !Cache.Initialize() )
-            {
-                return 1;
-            }
-
-            SolutionLoader loader = new SolutionLoader();
-
-            Target target = new Target( options.config, options.target );
-            if( !loader.Load( SolutionRoot.RootDirectory, target ) )
-            {
-                return 1;
-            }
-
-            return 0;
+            get{ return _shortCode; }
+            set{ _shortCode = value; }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        public string LongCode
+        {
+            get{ return _longCode; }
+            set{ _longCode = value; }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public OptionAttribute()
+        {}
+
+        /// <summary>
+        ///
+        /// </summary>
+        public OptionAttribute( string shortCode = "", string longCode = "" )
+        {
+            _shortCode  = shortCode;
+            _longCode   = longCode;
+        }
     }
 
-}
+} // namespace Sprove
 
