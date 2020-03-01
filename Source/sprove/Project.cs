@@ -25,7 +25,7 @@ namespace Sprove
     /// <summary>
     /// Represents a project made up of C# source files,
     /// </summary>
-    class Project
+    public sealed class Project
     {
 
         /// <summary>
