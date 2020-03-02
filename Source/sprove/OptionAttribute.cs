@@ -54,14 +54,6 @@ namespace Sprove
         public OptionAttribute()
         {}
 
-        /// <summary>
-        ///
-        /// </summary>
-        public OptionAttribute( string shortCode = "", string longCode = "" )
-        {
-            _shortCode  = shortCode;
-            _longCode   = longCode;
-        }
     }
 
 } // namespace Sprove
