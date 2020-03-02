@@ -29,6 +29,9 @@ namespace Sprove
 
         [Option( LongCode="--config" )]
         public BuildConfig config = BuildConfig.Debug;
+
+        [Verb( Code="--test" )]
+        public bool runTests = false;
     }
 
     internal class Sprove
