@@ -134,7 +134,6 @@ def main():
     compiler    = CSCompiler()
     compileData.files.extend( FindAllCSFilesInDir( projectSrcPath ) )
     compileData.defines.append( "SPROVE_BOOTSTRAP" )
-    #compileData.references.append( "System.Runtime.InteropServices.RuntimeInformation.dll" )
 
     returncode  = compiler.Compile( compileData )
 
