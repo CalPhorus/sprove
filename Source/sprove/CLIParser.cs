@@ -315,11 +315,11 @@ namespace Sprove
 
                 foreach( FieldInfo field in fields )
                 {
-                    Attribute[] attrs;
+                    object[] attrs;
 
-                    attrs = ( Attribute[] )field.GetCustomAttributes( false );
+                    attrs = field.GetCustomAttributes( false );
 
-                    foreach( Attribute attr in attrs )
+                    foreach( object attr in attrs )
                     {
                         if( attr is VerbAttribute )
                         {
