@@ -158,6 +158,9 @@ def main():
     # the bootstrap of sprove.exe is going to be rebuilt anyways.
     os.remove( os.path.join( scriptPath, "sprove.exe" ) )
 
+    if UseMCS():
+        os.remove( os.path.join( scriptPath, "sprove.exe.mdb" ) )
+
     # Return the result of the build.
     return bootstrap.returncode
 
