@@ -317,14 +317,7 @@ namespace Sprove
                 {
                     Attribute[] attrs;
 
-                    attrs = field.GetCustomAttributes(false)
-                        as Attribute[];
-
-                    if( null == attrs )
-                    {
-                        // Skip.
-                        continue;
-                    }
+                    attrs = ( Attribute[] )field.GetCustomAttributes( false );
 
                     foreach( Attribute attr in attrs )
                     {
