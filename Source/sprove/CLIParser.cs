@@ -320,6 +320,12 @@ namespace Sprove
                     attrs = field.GetCustomAttributes(false)
                         as Attribute[];
 
+                    if( null == attrs )
+                    {
+                        // Skip.
+                        continue;
+                    }
+
                     foreach( Attribute attr in attrs )
                     {
                         if( attr is VerbAttribute )
