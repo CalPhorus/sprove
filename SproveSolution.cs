@@ -36,11 +36,11 @@ class SproveSolution : Solution
 
     public SproveSolution( Target target ) : base( target )
     {
-        sourceDir   = Path.Combine( "Source", "sprove" );
-        version     = new Version();
-
+        sourceDir       = Path.Combine( "Source", "sprove" );
+        version         = new Version();
         version.major   = 0;
         version.minor   = 0;
+        version.patch   = 0;
         sprove          = CreateProject( "sprove" );
 
         sprove
