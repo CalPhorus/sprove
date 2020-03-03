@@ -100,6 +100,7 @@ class CSCompiler:
 
         args    = [ self.compiler,
                     "-out:" + compilerData.outputName + ".exe",
+                    "-debug",
                     define,
                     references,
                   ] + compilerData.files
@@ -144,8 +145,11 @@ def main():
 
     if UseMCS():
         bootstrapArgs.append( "mono" )
+        bootstrapArgs.append( "--debug" )
 
     bootstrapArgs.append( sprovePath )
+    bootstrapArgs.append( "--config:Shipping" )
+    bootstrapArgs.append( "--test" )
 
     bootstrap = subprocess.run( bootstrapArgs )
 

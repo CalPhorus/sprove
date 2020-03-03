@@ -19,12 +19,17 @@
 // SOFTWARE.
 using System;
 
+//TODO(anthony): Determine if there is a way to get the type that VerbAttribute
+// is being applied to and raise a VerbTypeException if it is not being applied
+// to a boolean type.
+
 namespace Sprove
 {
 
     /// <summary>
     ///
     /// </summary>
+    [System.AttributeUsage(System.AttributeTargets.Field, AllowMultiple=false)]
     internal class VerbAttribute : Attribute
     {
         private string _code   = string.Empty;

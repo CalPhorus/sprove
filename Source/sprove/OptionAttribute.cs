@@ -25,6 +25,7 @@ namespace Sprove
     /// <summary>
     ///
     /// </summary>
+    [System.AttributeUsage(System.AttributeTargets.Field, AllowMultiple=false)]
     internal class OptionAttribute : Attribute
     {
         private string _shortCode   = string.Empty;

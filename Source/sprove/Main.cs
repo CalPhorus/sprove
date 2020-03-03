@@ -18,35 +18,58 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 using System;
+using System.Collections.Generic;
 
 namespace Sprove
 {
 
     internal class SproveOptions
     {
-        [Option( ShortCode="-t", LongCode="--target" )]
-        public BuildTarget target = Target.Host();
+        [Option( ShortCode = "-t", LongCode = "--target" )]
+        [HelpText( "What operating system should projects be built for? Default: host system. Example: --target:Linux." )]
+        public BuildTarget target;
 
-        [Option( LongCode="--config" )]
+        [Option( LongCode = "--config" )]
+        [HelpText( "What configuration should projects be built for? Default: Debug. Example: --config:Production." )]
         public BuildConfig config = BuildConfig.Debug;
 
-        [Verb( Code="--test" )]
+        [Option( LongCode = "--create-solution" )]
+        [HelpText( "Create a solution that can be built with this tool." )]
+        public string solutionName = string.Empty;
+
+        [Verb( Code = "--test" )]
+        [HelpText( "Run tests as part of the build." )]
         public bool runTests = false;
+
+        [Verb( Code = "-?" )]
+        [HelpText( "Display this text" )]
+        public bool help = false;
+
+#if SPROVE_BOOTSTRAP
+#else // SPROVE_BOOTSTRAP
+        [Verb( Code = "-v" )]
+        [HelpText( "Get version info." )]
+        public bool version = false;
+#endif // SPROVE_BOOTSTRAP
+
     }
 
     internal class Sprove
     {
 
-        static void DisplayHelp()
-        {}
-
-        static int Main( string[] Arguments )
+        static int Main( string[] arguments )
         {
-            SproveOptions options = new SproveOptions();
+            SproveOptions              options = new SproveOptions();
+            CLIParser<SproveOptions>   parser  = new CLIParser<SproveOptions>();
+            List<string>               extras  = new List<string>();
 
-            if( BuildTarget.Unknown == Target.Host() )
+            try
             {
-                // Unknown host operating system.
+                options.target = Target.Host();
+            }
+            catch( UnknownHostException unknownHost )
+            {
+                Console.WriteLine( unknownHost );
                 return 1;
             }
 
@@ -60,10 +83,61 @@ namespace Sprove
                 return 1;
             }
 
+            if( !parser.Parse( arguments, ref options, ref extras ) )
+            {
+                return 1;
+            }
+
+            if( 0 < extras.Count )
+            {
+                bool isBad = false;
+                foreach( string cmdArg in extras )
+                {
+                    if( cmdArg.StartsWith( "-" ) )
+                    {
+                        Console.WriteLine( "Unknown command line option: {0}", cmdArg );
+                        isBad = true;
+                    }
+                }
+
+                if( isBad )
+                {
+                    return 1;
+                }
+            }
+
+            if( options.help )
+            {
+                parser.DisplayHelp();
+                return 0;
+            }
+
+#if SPROVE_BOOTSTRAP
+#else // SPROVE_BOOTSTRAP
+            if( options.version )
+            {
+                string versionString = Version.GetVersionString();
+                Console.WriteLine( "sprove - version {0}. Copyright (c) 2020 Anthony Smith." );
+                return 0;
+            }
+#endif // SPROVE_BOOTSTRAP
+            if( string.Empty != options.solutionName )
+            {
+                //TODO(anthony): Generate file.
+                return 0;
+            }
+
             SolutionLoader loader = new SolutionLoader();
 
             Target target = new Target( options.config, options.target );
             if( !loader.Load( SolutionRoot.RootDirectory, target ) )
+            {
+                return 1;
+            }
+
+            Solution loadedSolution = loader.LoadedSolution;
+
+            if( !loadedSolution.PreBuild() )
             {
                 return 1;
             }

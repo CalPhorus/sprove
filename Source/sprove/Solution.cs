@@ -18,6 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Sprove
 {
@@ -29,6 +31,8 @@ namespace Sprove
     {
         internal static readonly string _expectedClassName = "SproveSolution";
         internal static readonly string _expectedFileName  = "SproveSolution.cs";
+        private List<Project>           _projects          = new List<Project>();
+        private Target                  _target;
 
         /// <summary>
         ///
@@ -46,8 +50,78 @@ namespace Sprove
             get{ return _expectedFileName; }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        internal List<Project> Projects
+        {
+            get{ return _projects; }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        internal Target SolutionTarget
+        {
+            get{ return _target; }
+        }
+
         public Solution( Target target )
-        {}
+        {
+            _target = target;
+        }
+
+        public virtual bool PreBuild()
+        {
+            return true;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="fileName">
+        /// </param>
+        /// <param name="fileText">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public string CreateFile( string fileName, string fileText )
+        {
+            string result = Path.Combine( Cache.CacheTmpDir, fileName );
+
+            if( !Cache.CreateTempFile( result ) )
+            {
+                // Cannot create what already exists.
+                return string.Empty;
+            }
+
+            File.WriteAllText( result, fileText );
+
+            return result;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public Project CreateProject( string name )
+        {
+            Project result;
+
+            try
+            {
+                result = new Project( name );
+                return result;
+            }
+            catch( ArgumentException exception )
+            {
+                Console.WriteLine( exception );
+                return null;
+            }
+        }
     }
 
 } // namespace Sprove

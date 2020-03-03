@@ -26,10 +26,11 @@ namespace Sprove
     /// </summary>
     public enum BuildTarget
     {
-        Unknown,
         Linux,
         MacOS,
         Windows,
+        Android,
+        iOS
     }
 
 } // namespace Sprove

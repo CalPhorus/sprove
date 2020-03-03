@@ -128,6 +128,42 @@ namespace Sprove
             return result;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public static bool CreateTempFile( string fileName )
+        {
+            if( File.Exists( fileName ) )
+            {
+                // Will not overwrite.
+                return false;
+            }
+
+            string dir = Path.Combine( CacheTmpDir,
+                Path.GetDirectoryName( fileName ) );
+
+            if( !Directory.Exists( dir ) )
+            {
+                Directory.CreateDirectory( dir );
+            }
+
+            try
+            {
+                using ( StreamWriter file = new StreamWriter( Path.Combine( dir, fileName ) ) )
+                {}
+                return true;
+            }
+            catch( Exception exception )
+            {
+                Console.WriteLine( exception );
+            }
+            return false;
+        }
+
     }
 
 } // namespace Sprove

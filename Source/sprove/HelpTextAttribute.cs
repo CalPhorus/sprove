@@ -18,60 +18,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 using System;
-using System.Collections.Generic;
 
 namespace Sprove
 {
 
     /// <summary>
-    /// Represents a project made up of C# source files,
+    ///
     /// </summary>
-    public sealed class Project
+    [System.AttributeUsage(System.AttributeTargets.Field, AllowMultiple=false)]
+    internal class HelpTextAttribute : Attribute
     {
 
-        private readonly string _name;
-        private List<string>    _sourceFiles = new List<string>();
+        private readonly string _helpText;
 
         /// <summary>
         ///
         /// </summary>
-        public string Name{ get{ return _name; } }
-
-        /// <summary>
-        ///
-        /// </summary>
-        internal Project( string name )
+        public string HelpText
         {
-            _name = name;
-
-            if( null == name || string.Empty == name )
-            {
-                throw new ArgumentException( "Project name cannot be empty!" );
-            }
+            get{ return _helpText; }
         }
 
         /// <summary>
         ///
         /// </summary>
-        /// <param name="files">
-        /// </param>
-        public Project AddSourceFiles( string[] files )
+        public HelpTextAttribute( string helpText )
         {
-            _sourceFiles.AddRange( files );
-            return this;
+            _helpText = helpText;
         }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="files">
-        /// </param>
-        public Project AddSourceFiles( string files )
-        {
-            _sourceFiles.Add( files );
-            return this;
-        }
-
 
     }
 

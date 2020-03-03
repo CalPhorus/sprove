@@ -30,25 +30,24 @@ namespace Sprove
     {
         private readonly BuildConfig _buildConfig;
         private readonly BuildTarget _buildTarget;
+        private readonly BuildTarget _hostTarget;
 
         internal static BuildTarget Host()
         {
-            BuildTarget result = BuildTarget.Unknown;
-
             if( RuntimeInformation.IsOSPlatform( OSPlatform.Linux ) )
             {
-                result = BuildTarget.Linux;
+                return BuildTarget.Linux;
             }
             else if( RuntimeInformation.IsOSPlatform( OSPlatform.OSX ) )
             {
-                result = BuildTarget.MacOS;
+                return BuildTarget.MacOS;
             }
             else if( RuntimeInformation.IsOSPlatform( OSPlatform.Windows ) )
             {
-                result = BuildTarget.Windows;
+                return BuildTarget.Windows;
             }
 
-            return result;
+            throw new UnknownHostException();
         }
 
         /// <summary>
@@ -57,17 +56,23 @@ namespace Sprove
         public BuildConfig Config{ get{ return _buildConfig; } }
 
         /// <summary>
-        ///
+        /// The operating system that the build will be targeting.
         /// </summary>
         public BuildTarget TargetOS{ get{ return _buildTarget; } }
+
+        /// <summary>
+        /// The operating system that the build tool is being run on.
+        /// </summary>
+        public BuildTarget HostOS{ get{ return _hostTarget; } }
 
         /// <summary>
         ///
         /// </summary>
         public Target( BuildConfig buildConfig, BuildTarget buildTarget )
         {
-            _buildConfig = buildConfig;
-            _buildTarget = buildTarget;
+            _buildConfig    = buildConfig;
+            _buildTarget    = buildTarget;
+            _hostTarget     = Host();
         }
     }
 
