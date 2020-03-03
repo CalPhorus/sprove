@@ -350,7 +350,7 @@ namespace Sprove
                             // arguments passed via command line should use
                             // ":" to separate the flag and the value the
                             // flag will be set to.
-                            string[] args = arg.Split( ":" );
+                            string[] args = arg.Split( ':' );
 
                             if( 2 != args.Length )
                             {
@@ -368,7 +368,7 @@ namespace Sprove
 
                             // Pass to SetField what was passend on the command
                             // line, not what is being used to test.
-                            string[]        split     = arguments[ index ].Split( ":" );
+                            string[]        split     = arguments[ index ].Split( ':' );
                             string          cmd2      = split[ 0 ];
                             string          value     = split[ 1 ];
 
