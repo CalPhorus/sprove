@@ -74,8 +74,6 @@ namespace Sprove
 
             bool result = _compiler.Compile( _compileData );
 
-            Console.WriteLine( "Hi" );
-
             ResetData();
             return result;
         }
