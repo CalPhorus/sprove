@@ -36,7 +36,7 @@ class SproveSolution : Solution
 
     public SproveSolution( Target target ) : base( target )
     {
-        sourceDir       = Path.Combine( "Source", "sprove" );
+        sourceDir       = Path.Combine( "Source", "sprove" ) + Path.DirectorySeparatorChar;
         version         = new Version();
         version.major   = 0;
         version.minor   = 0;
@@ -47,26 +47,26 @@ class SproveSolution : Solution
             .AddSourceFiles(
                 new string[]
                 {
-                    sourceDir + "/UnknownHostException.cs",
-                    sourceDir + "/VerbTypeException.cs",
-                    sourceDir + "/HelpTextAttribute.cs",
-                    sourceDir + "/OptionAttribute.cs",
-                    sourceDir + "/SolutionLoader.cs",
-                    sourceDir + "/VerbAttribute.cs",
-                    sourceDir + "/WarningLevel.cs",
-                    sourceDir + "/SolutionRoot.cs",
-                    sourceDir + "/BuildConfig.cs",
-                    sourceDir + "/CompileData.cs",
-                    sourceDir + "/BuildTarget.cs",
-                    sourceDir + "/CLIParser.cs",
-                    sourceDir + "/Solution.cs",
-                    sourceDir + "/Compiler.cs",
-                    sourceDir + "/Project.cs",
-                    sourceDir + "/ProjectBuilder.cs",
-                    sourceDir + "/SproveDirectory.cs",
-                    sourceDir + "/Target.cs",
-                    sourceDir + "/Cache.cs",
-                    sourceDir + "/Main.cs",
+                    sourceDir + "UnknownHostException.cs",
+                    sourceDir + "VerbTypeException.cs",
+                    sourceDir + "HelpTextAttribute.cs",
+                    sourceDir + "OptionAttribute.cs",
+                    sourceDir + "SolutionLoader.cs",
+                    sourceDir + "VerbAttribute.cs",
+                    sourceDir + "WarningLevel.cs",
+                    sourceDir + "SolutionRoot.cs",
+                    sourceDir + "BuildConfig.cs",
+                    sourceDir + "CompileData.cs",
+                    sourceDir + "BuildTarget.cs",
+                    sourceDir + "CLIParser.cs",
+                    sourceDir + "Solution.cs",
+                    sourceDir + "Compiler.cs",
+                    sourceDir + "Project.cs",
+                    sourceDir + "ProjectBuilder.cs",
+                    sourceDir + "SproveDirectory.cs",
+                    sourceDir + "Target.cs",
+                    sourceDir + "Cache.cs",
+                    sourceDir + "Main.cs",
                 }
             );
     }
