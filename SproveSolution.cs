@@ -62,6 +62,8 @@ class SproveSolution : Solution
                     sourceDir + "/Solution.cs",
                     sourceDir + "/Compiler.cs",
                     sourceDir + "/Project.cs",
+                    sourceDir + "/ProjectBuilder.cs",
+                    sourceDir + "/SproveDirectory.cs",
                     sourceDir + "/Target.cs",
                     sourceDir + "/Cache.cs",
                     sourceDir + "/Main.cs",
@@ -149,6 +151,10 @@ namespace Sprove
         if( string.Empty != versionFile )
         {
             sprove.AddSourceFiles( versionFile );
+        }
+        else
+        {
+            return false;
         }
 
         return true;

@@ -151,7 +151,16 @@ def main():
     bootstrapArgs.append( "--config:Shipping" )
     bootstrapArgs.append( "--test" )
 
-    bootstrap = subprocess.run( bootstrapArgs )
+    bootstrap = subprocess.run( bootstrapArgs, stdout=subprocPipe,
+        stderr=subprocPipe )
+
+    stdout=bootstrap.stdout.decode( "utf-8" )
+    stderr=bootstrap.stderr.decode( "utf-8" )
+
+    if "" != stdout:
+        print( stdout )
+    if "" != stderr:
+        print( stderr )
 
     # Remove sprove.exe -- the bootstrap has been completed and the final
     # version of sprove.exe has been built. If there was an error,

@@ -59,13 +59,12 @@ namespace Sprove
             List<string>        compileOptions  = new List<string>();
             string[]            sourceFiles     = new string[ 0 ];
 
-            if( null != compileData.sourceFiles ||
+            if( null != compileData.sourceFiles &&
                 0 < compileData.sourceFiles.Count )
             {
                 sourceFiles = compileData.sourceFiles.ToArray();
             }
 
-            //TODO(anthony): Actually build the output location
             // Where to build the assembly
             parameters.OutputAssembly          = compileData.name;
 

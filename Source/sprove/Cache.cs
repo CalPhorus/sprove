@@ -137,12 +137,6 @@ namespace Sprove
         /// </returns>
         public static bool CreateTempFile( string fileName )
         {
-            if( File.Exists( fileName ) )
-            {
-                // Will not overwrite.
-                return false;
-            }
-
             string dir = Path.Combine( CacheTmpDir,
                 Path.GetDirectoryName( fileName ) );
 

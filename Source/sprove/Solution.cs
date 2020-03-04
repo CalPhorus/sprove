@@ -91,7 +91,7 @@ namespace Sprove
 
             if( !Cache.CreateTempFile( result ) )
             {
-                // Cannot create what already exists.
+                // Failed to create it.
                 return string.Empty;
             }
 
@@ -114,6 +114,7 @@ namespace Sprove
             try
             {
                 result = new Project( name );
+                _projects.Add( result );
                 return result;
             }
             catch( ArgumentException exception )

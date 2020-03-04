@@ -41,7 +41,7 @@ namespace Sprove
         [HelpText( "Run tests as part of the build." )]
         public bool runTests = false;
 
-        [Verb( Code = "-?" )]
+        [Verb( Code = "-h" )]
         [HelpText( "Display this text" )]
         public bool help = false;
 
@@ -106,6 +106,11 @@ namespace Sprove
                 }
             }
 
+            if( !SproveDirectory.Initialize() )
+            {
+                return 1;
+            }
+
             if( options.help )
             {
                 parser.DisplayHelp();
@@ -116,8 +121,9 @@ namespace Sprove
 #else // SPROVE_BOOTSTRAP
             if( options.version )
             {
-                string versionString = Version.GetVersionString();
-                Console.WriteLine( "sprove - version {0}. Copyright (c) 2020 Anthony Smith." );
+                string versionString = global::Sprove.Version.GetVersionString();
+                Console.WriteLine( "sprove - version {0}. Copyright (c) 2020 Anthony Smith.",
+                    versionString );
                 return 0;
             }
 #endif // SPROVE_BOOTSTRAP
@@ -140,6 +146,15 @@ namespace Sprove
             if( !loadedSolution.PreBuild() )
             {
                 return 1;
+            }
+
+            ProjectBuilder projectBuilder = new ProjectBuilder();
+            foreach( Project project in loadedSolution.Projects )
+            {
+                if( !projectBuilder.Build( project ) )
+                {
+                    return 1;
+                }
             }
 
             return 0;

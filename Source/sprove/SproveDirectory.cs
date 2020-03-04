@@ -18,78 +18,76 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 using System;
-using System.Collections.Generic;
+using System.IO;
 
 namespace Sprove
 {
 
     /// <summary>
-    /// Represents a project made up of C# source files,
+    ///
     /// </summary>
-    public sealed class Project
+    internal static class SproveDirectory
     {
 
-        private readonly string _name;
-        private List<string>    _sourceFiles    = new List<string>();
-        private bool            _isLibrary      = false;
+        private static string _binDir;
 
         /// <summary>
         ///
         /// </summary>
-        internal List<string> SourceFiles
+        public static string BinaryDir
         {
-            get{ return _sourceFiles; }
+            get{ return _binDir; }
         }
 
         /// <summary>
         ///
         /// </summary>
-        public string Name{ get{ return _name; } }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public bool IsLibrary
+        /// <returns>
+        /// </returns>
+        public static bool Initialize()
         {
-            get{ return _isLibrary; }
-            set{ _isLibrary = value; }
-        }
+            bool    result      = false;
+            string  binaries    = "Binaries";
 
-        /// <summary>
-        ///
-        /// </summary>
-        internal Project( string name )
-        {
-            _name = name;
-
-            if( null == name || string.Empty == name )
+            try
             {
-                throw new ArgumentException( "Project name cannot be empty!" );
+                _binDir = CreateDirectory( binaries );
+                result = true;
             }
+            catch( Exception exception )
+            {
+                Console.WriteLine( exception );
+            }
+
+            return result;
         }
 
         /// <summary>
         ///
         /// </summary>
-        /// <param name="files">
+        /// <param name="directory">
         /// </param>
-        public Project AddSourceFiles( string[] files )
+        /// <returns>
+        /// </returns>
+        public static string CreateDirectory( string directory )
         {
-            _sourceFiles.AddRange( files );
-            return this;
-        }
+            string  toBuild = Path.Combine( SolutionRoot.RootDirectory, directory );
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="files">
-        /// </param>
-        public Project AddSourceFiles( string files )
-        {
-            _sourceFiles.Add( files );
-            return this;
-        }
+            if( !Directory.Exists( toBuild ) )
+            {
+                try
+                {
+                    Directory.CreateDirectory( toBuild );
+                }
+                catch( Exception exception )
+                {
+                    // Don't handle the exception here.
+                    throw exception;
+                }
+            }
 
+            return toBuild;
+        }
 
     }
 
