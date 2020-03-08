@@ -36,6 +36,10 @@ class SproveSolution : Solution
 
     public SproveSolution( Target target ) : base( target )
     {
+        string vendorDir        = Path.Combine( "Source", "Vendor" );
+        string priorityQueueDir = Path.Combine( vendorDir, "priorityqueue",
+            "priorityqueue", "Priority Queue" ) + Path.DirectorySeparatorChar;
+
         sourceDir       = Path.Combine( "Source", "sprove" ) + Path.DirectorySeparatorChar;
         version         = new Version();
         version.major   = 0;
@@ -67,6 +71,17 @@ class SproveSolution : Solution
                     sourceDir + "Target.cs",
                     sourceDir + "Cache.cs",
                     sourceDir + "Main.cs",
+
+                    // Priority queue
+                    priorityQueueDir + "IPriorityQueue.cs",
+                    priorityQueueDir + "IFixedSizePriorityQueue.cs",
+                    priorityQueueDir + "FastPriorityQueue.cs",
+                    priorityQueueDir + "FastPriorityQueueNode.cs",
+                    priorityQueueDir + "GenericPriorityQueue.cs",
+                    priorityQueueDir + "GenericPriorityQueueNode.cs",
+                    priorityQueueDir + "SimplePriorityQueue.cs",
+                    priorityQueueDir + "StablePriorityQueue.cs",
+                    priorityQueueDir + "StablePriorityQueueNode.cs",
                 }
             );
     }
