@@ -151,10 +151,13 @@ namespace Sprove
             ProjectBuilder projectBuilder = new ProjectBuilder();
             foreach( Project project in loadedSolution.Projects )
             {
-                if( !projectBuilder.Build( project ) )
+                Console.Write( "Building project: {0}...", project.Name );
+                if( !projectBuilder.Build( project, target ) )
                 {
                     return 1;
                 }
+
+                Console.WriteLine( " done" );
             }
 
             return 0;
