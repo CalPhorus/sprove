@@ -112,6 +112,7 @@ namespace Sprove
 
             if( 0 < compileResult.Errors.Count )
             {
+                Console.WriteLine();
                 Console.WriteLine( "Failed to build {0} due to errors:",
                     compileData.name );
                 foreach( CompilerError error in compileResult.Errors )
