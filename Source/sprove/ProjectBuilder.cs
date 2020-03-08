@@ -59,7 +59,7 @@ namespace Sprove
         /// </param>
         /// <returns>
         /// </returns>
-        public bool Build( Project project )
+        public bool Build( Project project, Target target )
         {
             string extension = ".exe";
             if( project.IsLibrary )
@@ -71,6 +71,18 @@ namespace Sprove
                 project.Name.Replace( " ", "" ) + extension );
             _compileData.isLibrary  = project.IsLibrary;
             _compileData.sourceFiles.AddRange( project.SourceFiles.ToArray() );
+
+            switch( target.Config )
+            {
+                case BuildConfig.Debug:
+                {
+                    _compileData.defines.Add( "DEBUG" );
+                } break;
+                case BuildConfig.Production:
+                {} break;
+                case BuildConfig.Shipping:
+                {} break;
+            }
 
             bool result = _compiler.Compile( _compileData );
 
